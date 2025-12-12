@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "target": "first-contact-chcc",
+    "public": "dist/first-contact-chcc/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "first-contact-chcc"
+  },
+  "targets": {
+    "first-contact-chcc": {
+      "hosting": {
+        "first-contact-chcc": [
+          "first-contact-chcc"
+        ]
+      }
+    }
+  }
+}

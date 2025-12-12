@@ -95,6 +95,12 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "buildTarget": "first-contact-chcc:build:production"
+          }
         }
       }
     }

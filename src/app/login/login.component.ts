@@ -10,9 +10,10 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  username = '';
+  email = '';
   password = '';
   errorMessage = '';
+  isLoading = false;
 
   constructor(
     private authService: AuthService,
@@ -20,13 +21,19 @@ export class LoginComponent {
     private route: ActivatedRoute
   ) {}
 
-  onLogin() {
-    if (this.authService.login(this.username, this.password)) {
+  async onLogin() {
+    this.errorMessage = '';
+    this.isLoading = true;
+
+    try {
+      await this.authService.login(this.email, this.password);
       // Get return url from query params or default to records
       const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/records';
       this.router.navigate([returnUrl]);
-    } else {
-      this.errorMessage = 'Invalid credentials. Please try again.';
+    } catch (error: any) {
+      this.errorMessage = error.message || 'Invalid credentials. Please try again.';
+    } finally {
+      this.isLoading = false;
     }
   }
 }

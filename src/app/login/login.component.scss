@@ -46,7 +46,8 @@
           font-weight: 500;
         }
 
-        input {
+        input,
+        select {
           width: 100%;
           padding: 0.75rem;
           border: 1px solid #ddd;
@@ -58,6 +59,11 @@
             outline: none;
             border-color: #3498db;
           }
+        }
+
+        select {
+          background-color: white;
+          cursor: pointer;
         }
       }
 

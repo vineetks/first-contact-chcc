@@ -1,0 +1,229 @@
+<div class="users-container">
+  <div class="header-section">
+    <h1>User Management</h1>
+    <button class="btn-create" (click)="openCreateModal()">Create User</button>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  @if (successMessage) {
+    <div class="success-message">{{ successMessage }}</div>
+  }
+
+  <div class="content-grid">
+    <!-- Create User Modal -->
+    @if (showCreateModal) {
+      <div class="modal-overlay" (click)="closeCreateModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Create New User</h2>
+            <button class="btn-close" (click)="closeCreateModal()">&times;</button>
+          </div>
+
+          @if (errorMessage) {
+            <div class="error-message">{{ errorMessage }}</div>
+          }
+
+          <form (ngSubmit)="onCreateUser()" #userForm="ngForm">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            [(ngModel)]="newUser.firstName"
+            required
+            placeholder="Enter first name">
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            [(ngModel)]="newUser.lastName"
+            required
+            placeholder="Enter last name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="newUser.email"
+            required
+            email
+            placeholder="Enter email">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="newUser.password"
+            required
+            minlength="6"
+            placeholder="Enter password (min 6 characters)">
+        </div>
+
+        <div class="form-group">
+          <label for="userType">User Type</label>
+          <select
+            id="userType"
+            name="userType"
+            [(ngModel)]="newUser.userType"
+            required>
+            <option value="">Select user type</option>
+            <option value="ADMIN">ADMIN</option>
+            <option value="DOCTOR">DOCTOR</option>
+            <option value="STAFF">STAFF</option>
+            <option value="ANONYMOUS">ANONYMOUS</option>
+          </select>
+        </div>
+
+            <button type="submit" class="btn-primary" [disabled]="!userForm.form.valid || isCreating">
+              {{ isCreating ? 'Creating...' : 'Create User' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    }
+
+    <!-- Update User Modal -->
+    @if (showUpdateModal) {
+      <div class="modal-overlay" (click)="closeUpdateModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Update User</h2>
+            <button class="btn-close" (click)="closeUpdateModal()">&times;</button>
+          </div>
+
+          @if (errorMessage) {
+            <div class="error-message">{{ errorMessage }}</div>
+          }
+
+          <form (ngSubmit)="onUpdateUser()" #updateForm="ngForm">
+            <div class="form-group">
+              <label for="updateFirstName">First Name</label>
+              <input
+                type="text"
+                id="updateFirstName"
+                name="updateFirstName"
+                [(ngModel)]="updatedUser.firstName"
+                required
+                placeholder="Enter first name">
+            </div>
+
+            <div class="form-group">
+              <label for="updateLastName">Last Name</label>
+              <input
+                type="text"
+                id="updateLastName"
+                name="updateLastName"
+                [(ngModel)]="updatedUser.lastName"
+                required
+                placeholder="Enter last name">
+            </div>
+
+            <div class="form-group">
+              <label for="updateEmail">Email</label>
+              <input
+                type="email"
+                id="updateEmail"
+                name="updateEmail"
+                [(ngModel)]="updatedUser.email"
+                required
+                email
+                placeholder="Enter email">
+            </div>
+
+            <div class="form-group">
+              <label for="updateUserType">User Type</label>
+              <select
+                id="updateUserType"
+                name="updateUserType"
+                [(ngModel)]="updatedUser.userType"
+                required>
+                <option value="ADMIN">ADMIN</option>
+                <option value="DOCTOR">DOCTOR</option>
+                <option value="STAFF">STAFF</option>
+                <option value="ANONYMOUS">ANONYMOUS</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="!updateForm.form.valid || isUpdating">
+              {{ isUpdating ? 'Updating...' : 'Update User' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    }
+
+    <!-- Users List -->
+    <div class="users-list-card">
+      <h2>All Users</h2>
+
+      @if (users$ | async; as users) {
+        @if (users.length === 0) {
+          <p class="no-users">No users found.</p>
+        } @else {
+          <div class="users-table-wrapper">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Created</th>
+                  <th>Last Login</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (user of users; track user.uid) {
+                  <tr>
+                    <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                      <select
+                        [(ngModel)]="user.userType"
+                        (change)="onUpdateUserRole(user.uid, user.userType)"
+                        class="role-select">
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="DOCTOR">DOCTOR</option>
+                        <option value="STAFF">STAFF</option>
+                        <option value="ANONYMOUS">ANONYMOUS</option>
+                      </select>
+                    </td>
+                    <td>{{ formatDate(user.createdAt) }}</td>
+                    <td>{{ formatDate(user.lastLogin) }}</td>
+                    <td class="action-buttons">
+                      <button
+                        class="btn-update"
+                        (click)="openUpdateModal(user)">
+                        Update
+                      </button>
+                      <button
+                        class="btn-delete"
+                        (click)="onDeleteUser(user.uid, user.email)"
+                        [disabled]="user.uid === currentUserId">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

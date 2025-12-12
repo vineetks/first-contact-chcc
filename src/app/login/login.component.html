@@ -9,14 +9,15 @@
 
     <form (ngSubmit)="onLogin()" #loginForm="ngForm">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="email">Email</label>
         <input
-          type="text"
-          id="username"
-          name="username"
-          [(ngModel)]="username"
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
           required
-          placeholder="Enter your username">
+          email
+          placeholder="Enter your email">
       </div>
 
       <div class="form-group">
@@ -27,16 +28,13 @@
           name="password"
           [(ngModel)]="password"
           required
+          minlength="6"
           placeholder="Enter your password">
       </div>
 
-      <button type="submit" class="btn-login" [disabled]="!loginForm.form.valid">
-        Login
+      <button type="submit" class="btn-login" [disabled]="!loginForm.form.valid || isLoading">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
       </button>
     </form>
-
-    <div class="demo-info">
-      <p><strong>Demo Access:</strong> Use any username and password to login</p>
-    </div>
   </div>
 </div>

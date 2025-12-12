@@ -6,7 +6,10 @@
     <div class="user-menu">
       @if (isAuthenticated()) {
         <button class="btn-records" routerLink="/records">Records</button>
-        <span class="user-name">{{ currentUser()?.username }}</span>
+        @if (isAdmin()) {
+          <button class="btn-users" routerLink="/users">Users</button>
+        }
+        <span class="user-name">{{ currentUser()?.firstName }}</span>
         <button class="btn-logout" (click)="logout()">Logout</button>
       } @else {
         <button class="btn-login" routerLink="/login">Login</button>

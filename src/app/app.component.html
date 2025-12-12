@@ -9,8 +9,22 @@
         @if (isAdmin()) {
           <button class="btn-users" routerLink="/users">Users</button>
         }
-        <span class="user-name">{{ currentUser()?.firstName }}</span>
-        <button class="btn-logout" (click)="logout()">Logout</button>
+        <div class="user-dropdown">
+          <button class="btn-user-menu" (click)="toggleUserDropdown()">
+            <span class="user-name">{{ currentUser()?.firstName }}</span>
+            <span class="dropdown-arrow">▼</span>
+          </button>
+          @if (showUserDropdown) {
+            <div class="dropdown-menu">
+              <button class="dropdown-item" routerLink="/profile" (click)="closeDropdown()">
+                Profile
+              </button>
+              <button class="dropdown-item" (click)="logout()">
+                Logout
+              </button>
+            </div>
+          }
+        </div>
       } @else {
         <button class="btn-login" routerLink="/login">Login</button>
       }

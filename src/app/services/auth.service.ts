@@ -22,6 +22,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  contact?: string;
   userType: UserType;
   createdAt?: Timestamp | Date;
   lastLogin?: Timestamp | Date;
@@ -123,13 +124,14 @@ export class AuthService {
     }
   }
 
-  private async createUserDocument(uid: string, email: string, firstName: string, lastName: string): Promise<User> {
+  private async createUserDocument(uid: string, email: string, firstName: string, lastName: string, contact?: string): Promise<User> {
     const userRef = doc(this.firestore, 'users', uid);
     const userData: User = {
       uid,
       email,
       firstName,
       lastName,
+      contact: contact || '',
       userType: 'ANONYMOUS', // Default role
       createdAt: Timestamp.now(),
       lastLogin: Timestamp.now()

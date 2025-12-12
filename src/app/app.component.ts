@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'first-contact-chcc';
   private authService = inject(AuthService);
   currentUser = this.authService.currentUser;
+  showUserDropdown = false;
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
@@ -21,7 +22,16 @@ export class AppComponent {
     return this.authService.isAdmin();
   }
 
+  toggleUserDropdown(): void {
+    this.showUserDropdown = !this.showUserDropdown;
+  }
+
+  closeDropdown(): void {
+    this.showUserDropdown = false;
+  }
+
   logout(): void {
     this.authService.logout();
+    this.showUserDropdown = false;
   }
 }

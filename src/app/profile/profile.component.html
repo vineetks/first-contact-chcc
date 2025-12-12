@@ -1,0 +1,115 @@
+<div class="profile-container">
+  <h1>My Profile</h1>
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  @if (successMessage) {
+    <div class="success-message">{{ successMessage }}</div>
+  }
+
+  <div class="content-grid">
+    <!-- Profile Information -->
+    <div class="profile-card">
+      <h2>Profile Information</h2>
+
+      @if (currentUser) {
+        <form (ngSubmit)="onUpdateProfile()" #profileFormRef="ngForm">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              [(ngModel)]="profileForm.firstName"
+              required
+              placeholder="Enter first name">
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              [(ngModel)]="profileForm.lastName"
+              required
+              placeholder="Enter last name">
+          </div>
+
+          <div class="form-group">
+            <label for="contact">Contact Number</label>
+            <input
+              type="tel"
+              id="contact"
+              name="contact"
+              [(ngModel)]="profileForm.contact"
+              required
+              placeholder="Enter mobile number">
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <div class="readonly-field">{{ currentUser.email }}</div>
+          </div>
+
+          <div class="form-group">
+            <label>User Type</label>
+            <div class="readonly-field">{{ currentUser.userType }}</div>
+          </div>
+
+          <button type="submit" class="btn-primary" [disabled]="!profileFormRef.form.valid || isUpdatingProfile">
+            {{ isUpdatingProfile ? 'Updating...' : 'Update Profile' }}
+          </button>
+        </form>
+      }
+    </div>
+
+    <!-- Change Password -->
+    <div class="password-card">
+      <h2>Change Password</h2>
+
+      <form (ngSubmit)="onChangePassword()" #passwordFormRef="ngForm">
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input
+            type="password"
+            id="currentPassword"
+            name="currentPassword"
+            [(ngModel)]="passwordForm.currentPassword"
+            required
+            placeholder="Enter current password">
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input
+            type="password"
+            id="newPassword"
+            name="newPassword"
+            [(ngModel)]="passwordForm.newPassword"
+            required
+            minlength="6"
+            placeholder="Enter new password (min 6 characters)">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="passwordForm.confirmPassword"
+            required
+            minlength="6"
+            placeholder="Confirm new password">
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="!passwordFormRef.form.valid || isUpdatingPassword">
+          {{ isUpdatingPassword ? 'Changing...' : 'Change Password' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

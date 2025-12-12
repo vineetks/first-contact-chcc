@@ -32,7 +32,7 @@ export class UsersService {
     return collectionData(q, { idField: 'uid' }) as Observable<User[]>;
   }
 
-  async createUser(email: string, password: string, firstName: string, lastName: string, userType: UserType): Promise<void> {
+  async createUser(email: string, password: string, firstName: string, lastName: string, contact: string, userType: UserType): Promise<void> {
     try {
       // Create user in Firebase Auth
       const credential = await createUserWithEmailAndPassword(this.auth, email, password);
@@ -44,6 +44,7 @@ export class UsersService {
         email,
         firstName,
         lastName,
+        contact,
         userType,
         createdAt: Timestamp.now(),
         lastLogin: Timestamp.now()
@@ -70,12 +71,13 @@ export class UsersService {
     }
   }
 
-  async updateUser(uid: string, firstName: string, lastName: string, email: string, userType: UserType): Promise<void> {
+  async updateUser(uid: string, firstName: string, lastName: string, contact: string, email: string, userType: UserType): Promise<void> {
     try {
       const userRef = doc(this.firestore, 'users', uid);
       await setDoc(userRef, {
         firstName,
         lastName,
+        contact,
         email,
         userType
       }, { merge: true });

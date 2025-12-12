@@ -28,6 +28,7 @@ export class UsersComponent implements OnInit {
     firstName: '',
     lastName: '',
     email: '',
+    contact: '',
     password: '',
     userType: '' as UserType | ''
   };
@@ -37,6 +38,7 @@ export class UsersComponent implements OnInit {
     uid: '',
     firstName: '',
     lastName: '',
+    contact: '',
     email: '',
     userType: '' as UserType
   };
@@ -61,6 +63,7 @@ export class UsersComponent implements OnInit {
       firstName: '',
       lastName: '',
       email: '',
+      contact: '',
       password: '',
       userType: ''
     };
@@ -73,6 +76,7 @@ export class UsersComponent implements OnInit {
       uid: user.uid,
       firstName: user.firstName,
       lastName: user.lastName,
+      contact: user.contact || '',
       email: user.email,
       userType: user.userType
     };
@@ -103,6 +107,7 @@ export class UsersComponent implements OnInit {
         this.newUser.password,
         this.newUser.firstName,
         this.newUser.lastName,
+        this.newUser.contact,
         this.newUser.userType as UserType
       );
 
@@ -130,6 +135,7 @@ export class UsersComponent implements OnInit {
         this.updatedUser.uid,
         this.updatedUser.firstName,
         this.updatedUser.lastName,
+        this.updatedUser.contact,
         this.updatedUser.email,
         this.updatedUser.userType
       );

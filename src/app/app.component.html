@@ -1,1 +1,19 @@
-<h1>First Contact CHCC</h1>
+<header>
+  <nav>
+    <div class="nav-brand">
+      <h1><a routerLink="/home">First Contact CHCC</a></h1>
+    </div>
+    <div class="user-menu">
+      @if (isAuthenticated()) {
+        <button class="btn-records" routerLink="/records">Records</button>
+        <span class="user-name">{{ currentUser()?.username }}</span>
+        <button class="btn-logout" (click)="logout()">Logout</button>
+      } @else {
+        <button class="btn-login" routerLink="/login">Login</button>
+      }
+    </div>
+  </nav>
+</header>
+<main>
+  <router-outlet></router-outlet>
+</main>

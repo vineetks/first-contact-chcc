@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Login to Access Records</h2>
+    <p class="subtitle">Enter your credentials to manage newborn records</p>
+
+    @if (errorMessage) {
+      <div class="error-message">{{ errorMessage }}</div>
+    }
+
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
+          required
+          placeholder="Enter your username">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          placeholder="Enter your password">
+      </div>
+
+      <button type="submit" class="btn-login" [disabled]="!loginForm.form.valid">
+        Login
+      </button>
+    </form>
+
+    <div class="demo-info">
+      <p><strong>Demo Access:</strong> Use any username and password to login</p>
+    </div>
+  </div>
+</div>

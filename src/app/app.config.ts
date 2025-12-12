@@ -17,9 +17,7 @@ export const appConfig: ApplicationConfig = {
         apiKey: "AIzaSyB5C05rCIJQ0LKMVkSRYEqW2TUSj-LLSxU",
         authDomain: "first-contact-chcc.firebaseapp.com",
         messagingSenderId: "316554060244",
-        measurementId: "G-H3VY723M4N",
-        // projectNumber: "316554060244",
-        // version: "2"
+        measurementId: "G-H3VY723M4N"
       })),
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions())

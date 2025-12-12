@@ -1,19 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-interface NewbornRecord {
-  id: string;
-  babyName: string;
-  dob: string;
-  gender: string;
-  motherName: string;
-  fatherName: string;
-  contactNo: string;
-  address: string;
-  pin: string;
-  email?: string;
-}
+import { RecordsService, ChildRecord } from '../services/records.service';
 
 @Component({
   selector: 'app-records',
@@ -21,11 +9,16 @@ interface NewbornRecord {
   templateUrl: './records.component.html',
   styleUrl: './records.component.scss'
 })
-export class RecordsComponent {
-  records: NewbornRecord[] = [];
-  showPopup = false;
+export class RecordsComponent implements OnInit {
+  private readonly recordsService = inject(RecordsService);
 
-  newRecord: Partial<NewbornRecord> = {
+  records: ChildRecord[] = [];
+  showPopup = false;
+  isLoading = true;
+  errorMessage = '';
+  successMessage = '';
+
+  newRecord: Partial<ChildRecord> = {
     babyName: '',
     dob: '',
     gender: '',
@@ -37,6 +30,31 @@ export class RecordsComponent {
     email: ''
   };
 
+  ngOnInit(): void {
+    this.loadRecords();
+  }
+
+  private loadRecords(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.recordsService.getRecords().subscribe({
+      next: (records) => {
+        this.records = records;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading records:', error);
+        this.errorMessage = error.message || 'Failed to load child records. Please check your internet connection and Firestore configuration.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  retryLoading(): void {
+    this.loadRecords();
+  }
+
   openPopup() {
     this.showPopup = true;
   }
@@ -46,9 +64,8 @@ export class RecordsComponent {
     this.resetForm();
   }
 
-  onSubmit() {
-    const record: NewbornRecord = {
-      id: Date.now().toString(),
+  async onSubmit() {
+    const record: Omit<ChildRecord, 'id' | 'createdAt'> = {
       babyName: this.newRecord.babyName!,
       dob: this.newRecord.dob!,
       gender: this.newRecord.gender!,
@@ -60,8 +77,21 @@ export class RecordsComponent {
       email: this.newRecord.email
     };
 
-    this.records.unshift(record);
-    this.closePopup();
+    try {
+      await this.recordsService.addRecord(record);
+      this.showSuccessMessage('Child record added successfully!');
+      this.closePopup();
+    } catch (error) {
+      console.error('Error adding record:', error);
+      alert('Failed to add record. Please try again.');
+    }
+  }
+
+  showSuccessMessage(message: string): void {
+    this.successMessage = message;
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 3000);
   }
 
   resetForm(form?: NgForm) {
@@ -82,9 +112,16 @@ export class RecordsComponent {
     }
   }
 
-  deleteRecord(id: string) {
+  async deleteRecord(id?: string) {
+    if (!id) return;
+
     if (confirm('Are you sure you want to delete this record?')) {
-      this.records = this.records.filter(r => r.id !== id);
+      try {
+        await this.recordsService.deleteRecord(id);
+      } catch (error) {
+        console.error('Error deleting record:', error);
+        alert('Failed to delete record. Please try again.');
+      }
     }
   }
 

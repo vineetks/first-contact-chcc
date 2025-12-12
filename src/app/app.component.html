@@ -1,13 +1,19 @@
 <header>
   <nav>
     <div class="nav-brand">
-      <h1><a routerLink="/home">First Contact CHCC</a></h1>
+      <h1>
+        <a routerLink="/home">
+          <!-- Using emoji as icon -->
+          <span class="nav-icon">👶</span>
+          <span class="brand-text">First Contact CHCC</span>
+        </a>
+      </h1>
     </div>
     <div class="user-menu">
       @if (isAuthenticated()) {
-        <button class="btn-records" routerLink="/records">Records</button>
+        <a class="nav-link" routerLink="/records" routerLinkActive="active">Records</a>
         @if (isAdmin()) {
-          <button class="btn-users" routerLink="/users">Users</button>
+          <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
         }
         <div class="user-dropdown">
           <button class="btn-user-menu" (click)="toggleUserDropdown()">
@@ -16,9 +22,9 @@
           </button>
           @if (showUserDropdown) {
             <div class="dropdown-menu">
-              <button class="dropdown-item" routerLink="/profile" (click)="closeDropdown()">
+              <a class="dropdown-item" routerLink="/profile" (click)="closeDropdown()">
                 Profile
-              </button>
+              </a>
               <button class="dropdown-item" (click)="logout()">
                 Logout
               </button>
@@ -26,7 +32,7 @@
           }
         </div>
       } @else {
-        <button class="btn-login" routerLink="/login">Login</button>
+        <a class="nav-link" routerLink="/login">Login</a>
       }
     </div>
   </nav>

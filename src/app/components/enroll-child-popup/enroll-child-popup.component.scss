@@ -1,0 +1,203 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  .modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #dee2e6;
+
+      h3 {
+        margin: 0;
+        color: #2c3e50;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #7f8c8d;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+
+        &:hover {
+          color: #2c3e50;
+        }
+      }
+    }
+
+    .tab-navigation {
+      display: flex;
+      border-bottom: 2px solid #e9ecef;
+      padding: 0 2rem;
+      gap: 0.5rem;
+
+      .tab-btn {
+        background: none;
+        border: none;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #6c757d;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+        position: relative;
+        top: 2px;
+
+        &:hover:not(:disabled) {
+          color: #3498db;
+        }
+
+        &.active {
+          color: #3498db;
+          border-bottom-color: #3498db;
+        }
+
+        &:disabled {
+          color: #adb5bd;
+          cursor: not-allowed;
+          opacity: 0.6;
+        }
+      }
+    }
+
+    form {
+      padding: 2rem;
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+
+          &.full-width {
+            grid-column: 1 / -1;
+          }
+
+          label {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+          }
+
+          input, select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+
+            &:focus {
+              outline: none;
+              border-color: #3498db;
+            }
+
+            &.ng-invalid.ng-touched {
+              border-color: #e74c3c;
+            }
+          }
+
+          .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+
+            .radio-label {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              cursor: pointer;
+              font-weight: normal;
+
+              input[type="radio"] {
+                cursor: pointer;
+                width: 18px;
+                height: 18px;
+                margin: 0;
+                padding: 0;
+              }
+
+              span {
+                color: #495057;
+              }
+            }
+          }
+
+          .error-text {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+          }
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+
+        button {
+          padding: 0.75rem 1.5rem;
+          border: none;
+          border-radius: 4px;
+          font-size: 1rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s;
+
+          &.btn-save {
+            background-color: #27ae60;
+            color: white;
+
+            &:hover {
+              background-color: #229954;
+            }
+          }
+        }
+      }
+
+      .tab-content {
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}

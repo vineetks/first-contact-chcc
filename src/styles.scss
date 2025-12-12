@@ -1,5 +1,80 @@
 /* You can add global styles to this file, and also import other style files */
 
+:root {
+  --primary-color: #0ea5e9;
+  --primary-dark: #0284c7;
+  --secondary-color: #06b6d4;
+  --accent-color: #22d3ee;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --warning-color: #f59e0b;
+  --info-color: #3b82f6;
+
+  --text-color: #0f172a;
+  --text-light: #64748b;
+  --text-lighter: #94a3b8;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+
+  --border-color: #e2e8f0;
+  --border-light: #f1f5f9;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 8px 16px -4px rgba(0, 0, 0, 0.12);
+
+  --border-radius: 6px;
+  --border-radius-lg: 8px;
+  --border-radius-xl: 10px;
+
+  --transition: all 0.2s ease;
+}
+
 * {
   font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f8fafc;
+  min-height: 100vh;
+  color: var(--text-color);
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  margin: 0;
+  color: var(--text-color);
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.375rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--primary-dark);
+  }
+}
+
+button {
+  font-family: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
 }

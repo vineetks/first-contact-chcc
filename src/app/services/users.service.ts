@@ -96,4 +96,14 @@ export class UsersService {
       throw new Error(error.message || 'Failed to update user role');
     }
   }
+
+  async toggleDisableUser(uid: string, disabled: boolean): Promise<void> {
+    try {
+      const userRef = doc(this.firestore, 'users', uid);
+      await setDoc(userRef, { disabled }, { merge: true });
+    } catch (error: any) {
+      console.error('Error toggling user disabled status:', error);
+      throw new Error(error.message || 'Failed to update user status');
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, deleteDoc, doc, query, orderBy, Timestamp } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, deleteDoc, doc, query, orderBy, Timestamp, updateDoc } from '@angular/fire/firestore';
 import { Observable, catchError, throwError } from 'rxjs';
 
 export interface ChildRecord {
@@ -11,8 +11,11 @@ export interface ChildRecord {
   fatherName: string;
   contactNo: string;
   address: string;
+  district?: string;
+  state?: string;
   pin: string;
   email?: string;
+  isVerified?: boolean;
   createdAt?: Timestamp | Date;
 }
 
@@ -48,6 +51,16 @@ export class RecordsService {
     } catch (error) {
       console.error('Error adding child record:', error);
       throw new Error('Failed to add child record. Please try again.');
+    }
+  }
+
+  async updateRecord(id: string, record: Partial<ChildRecord>): Promise<void> {
+    try {
+      const docRef = doc(this.firestore, 'child', id);
+      await updateDoc(docRef, { ...record });
+    } catch (error) {
+      console.error('Error updating child record:', error);
+      throw new Error('Failed to update child record. Please try again.');
     }
   }
 

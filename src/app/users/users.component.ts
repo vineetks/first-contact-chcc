@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit {
   isUpdating = false;
   showCreateModal = false;
   showUpdateModal = false;
+  showCreateValidationErrors = false;
 
   newUser = {
     firstName: '',
@@ -43,8 +44,19 @@ export class UsersComponent implements OnInit {
     userType: '' as UserType
   };
 
+  expandedUserId: string | null = null;
+
   get currentUserId(): string | undefined {
     return this.authService.currentUser()?.uid;
+  }
+
+  toggleUser(userId: string | undefined): void {
+    if (!userId) return;
+    this.expandedUserId = this.expandedUserId === userId ? null : userId;
+  }
+
+  isExpanded(userId: string | undefined): boolean {
+    return this.expandedUserId === userId;
   }
 
   ngOnInit(): void {
@@ -68,6 +80,7 @@ export class UsersComponent implements OnInit {
       userType: ''
     };
     this.errorMessage = '';
+    this.showCreateValidationErrors = false;
   }
 
   openUpdateModal(user: User): void {
@@ -92,11 +105,17 @@ export class UsersComponent implements OnInit {
   }
 
   async onCreateUser(): Promise<void> {
-    if (!this.newUser.userType) {
-      this.errorMessage = 'Please select a user type';
+    if (!this.newUser.firstName || !this.newUser.email) {
+      this.showCreateValidationErrors = true;
       return;
     }
 
+    if (!this.newUser.userType) {
+      this.showCreateValidationErrors = true;
+      return;
+    }
+
+    this.showCreateValidationErrors = false;
     this.errorMessage = '';
     this.successMessage = '';
     this.isCreating = true;
@@ -154,18 +173,6 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  async onUpdateUserRole(uid: string, userType: UserType): Promise<void> {
-    try {
-      await this.usersService.updateUserRole(uid, userType);
-      this.successMessage = 'User role updated successfully!';
-      setTimeout(() => {
-        this.successMessage = '';
-      }, 3000);
-    } catch (error: any) {
-      this.errorMessage = error.message || 'Failed to update user role';
-    }
-  }
-
   async onDeleteUser(uid: string, email: string): Promise<void> {
     if (uid === this.currentUserId) {
       this.errorMessage = 'You cannot delete your own account';
@@ -184,6 +191,28 @@ export class UsersComponent implements OnInit {
       }, 3000);
     } catch (error: any) {
       this.errorMessage = error.message || 'Failed to delete user';
+    }
+  }
+
+  async onToggleDisableUser(uid: string, email: string, currentlyDisabled: boolean): Promise<void> {
+    if (uid === this.currentUserId) {
+      this.errorMessage = 'You cannot disable your own account';
+      return;
+    }
+
+    const action = currentlyDisabled ? 'enable' : 'disable';
+    if (!confirm(`Are you sure you want to ${action} user ${email}?`)) {
+      return;
+    }
+
+    try {
+      await this.usersService.toggleDisableUser(uid, !currentlyDisabled);
+      this.successMessage = `User ${action}d successfully!`;
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
+    } catch (error: any) {
+      this.errorMessage = error.message || `Failed to ${action} user`;
     }
   }
 

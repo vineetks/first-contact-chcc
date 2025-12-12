@@ -26,6 +26,7 @@ export interface User {
   userType: UserType;
   createdAt?: Timestamp | Date;
   lastLogin?: Timestamp | Date;
+  disabled?: boolean;
 }
 
 @Injectable({

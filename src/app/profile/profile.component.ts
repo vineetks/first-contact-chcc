@@ -25,8 +25,7 @@ export class ProfileComponent implements OnInit {
   profileForm = {
     firstName: '',
     lastName: '',
-    contact: '',
-    email: ''
+    contact: ''
   };
 
   passwordForm = {
@@ -41,8 +40,7 @@ export class ProfileComponent implements OnInit {
       this.profileForm = {
         firstName: this.currentUser.firstName,
         lastName: this.currentUser.lastName,
-        contact: this.currentUser.contact || '',
-        email: this.currentUser.email
+        contact: this.currentUser.contact || ''
       };
     }
   }

@@ -1,14 +1,21 @@
 <div class="home-container">
   <div class="welcome-section">
     <h2>Welcome to First Contact CHCC</h2>
-    <p>Newborn Records Management System</p>
+    <p>Child Records Management System</p>
+    <button (click)="openEnrollPopup()" class="btn-enroll">Enroll Child</button>
   </div>
+
+  <app-enroll-child-popup
+    [isOpen]="showEnrollPopup"
+    (closed)="closeEnrollPopup()"
+    (saved)="onRecordSaved()">
+  </app-enroll-child-popup>
 
   <div class="public-info">
     <div class="info-card">
       <h3>About Our System</h3>
-      <p>First Contact CHCC is a comprehensive newborn records management system designed for healthcare professionals.</p>
-      <p>Our system helps doctors and hospital staff efficiently manage and track newborn patient records including:</p>
+      <p>First Contact CHCC is a comprehensive child records management system designed for healthcare professionals.</p>
+      <p>Our system helps doctors and hospital staff efficiently manage and track child patient records including:</p>
       <ul>
         <li>Baby information (name, date of birth, gender)</li>
         <li>Parent details (mother and father names)</li>
@@ -17,10 +24,12 @@
       </ul>
     </div>
 
-    <div class="login-prompt">
-      <h3>Access Records</h3>
-      <p>Healthcare professionals can login to access and manage newborn records.</p>
-      <button routerLink="/login" class="btn-login-large">Login to Continue</button>
-    </div>
+    @if (!isAuthenticated()) {
+      <div class="login-prompt">
+        <h3 class="white-heading">Access Records</h3>
+        <p>Healthcare professionals can login to access and manage child records.</p>
+        <button routerLink="/login" class="btn-login-large">Login to Continue</button>
+      </div>
+    }
   </div>
 </div>
